@@ -53,17 +53,13 @@ init =
 
 
 type Msg
-    = NoOp
-    | Resize Int Int
+    = Resize Int Int
     | Tick Float
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
         Resize x y ->
             ( { model
                 | screenX = x
@@ -87,20 +83,11 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        camera =
-            Camera3d.perspective
-                { viewpoint =
-                    Viewpoint3d.lookAt
-                        { eyePoint = Point3d.meters 0 0 85
-                        , focalPoint = Point3d.meters 0 0 0
-                        , upDirection = Direction3d.positiveZ
-                        }
-                , verticalFieldOfView = Angle.degrees 35
-                }
-
+        -- how many rows/columns of blocks to draw
         axisCount =
             50
 
+        -- translate the grid of blocks to center it in the viewport
         offset =
             -0.5 + (-1 * axisCount / 2)
     in
@@ -110,13 +97,22 @@ view model =
         , Html.Attributes.style "background-color" "rgb(33, 26, 64)"
         ]
         [ Scene3d.sunny
-            { upDirection = Direction3d.positiveZ
-            , sunlightDirection = Direction3d.negativeZ
-            , shadows = True
-            , dimensions = ( Pixels.int model.screenX, Pixels.int model.screenY )
-            , camera = camera
+            { dimensions = ( Pixels.int model.screenX, Pixels.int model.screenY )
+            , camera =
+                Camera3d.perspective
+                    { viewpoint =
+                        Viewpoint3d.lookAt
+                            { eyePoint = Point3d.meters 0 0 85
+                            , focalPoint = Point3d.meters 0 0 0
+                            , upDirection = Direction3d.positiveZ
+                            }
+                    , verticalFieldOfView = Angle.degrees 35
+                    }
             , clipDepth = meters 0.1
-            , background = Scene3d.transparentBackground -- backgroundColor Color.red
+            , upDirection = Direction3d.positiveZ
+            , sunlightDirection = Direction3d.negativeZ
+            , shadows = False
+            , background = Scene3d.transparentBackground
             , entities =
                 List.concatMap
                     (\xi ->
@@ -137,14 +133,36 @@ blockAtIndex xyPositionOffset angleOffset xi yi =
         axisOffset n =
             Angle.degrees <| n + (angleOffset / 500)
 
+        -- randomize the axis upon which the cube rotates
         ( rotateDirection, _ ) =
             Random.step
                 (Random.andThen
-                    (\a -> Random.uniform (Direction3d.xy <| axisOffset a) [ Direction3d.yz <| axisOffset a, Direction3d.zy <| axisOffset a ])
+                    (\a ->
+                        Random.uniform
+                            (Direction3d.xy <| axisOffset a)
+                            [ Direction3d.yz <| axisOffset a, Direction3d.zy <| axisOffset a ]
+                    )
                     (Random.float 0 10000)
                 )
                 (Random.initialSeed <|
                     (xi + (yi * 1000))
+                )
+
+        block =
+            Scene3d.block
+                (Scene3d.Material.nonmetal
+                    { baseColor = Color.rgb255 91 192 235
+                    , roughness = 0.6
+                    }
+                )
+                (Block3d.with
+                    { x1 = Length.meters <| xyPositionOffset + toFloat xi
+                    , x2 = Length.meters <| xyPositionOffset + toFloat xi + 0.6
+                    , y1 = Length.meters <| xyPositionOffset + toFloat yi
+                    , y2 = Length.meters <| xyPositionOffset + toFloat yi + 0.6
+                    , z1 = Length.meters 0
+                    , z2 = Length.meters 0.6
+                    }
                 )
     in
     Scene3d.rotateAround
@@ -157,22 +175,7 @@ blockAtIndex xyPositionOffset angleOffset xi yi =
             rotateDirection
         )
         (Angle.degrees <| (angleOffset / 150) + toFloat xi / 3 + toFloat yi / 3)
-    <|
-        Scene3d.block
-            (Scene3d.Material.nonmetal
-                { baseColor = Color.rgb255 91 192 235
-                , roughness = 0.6
-                }
-            )
-            (Block3d.with
-                { x1 = Length.meters <| xyPositionOffset + toFloat xi
-                , x2 = Length.meters <| xyPositionOffset + toFloat xi + 0.6
-                , y1 = Length.meters <| xyPositionOffset + toFloat yi
-                , y2 = Length.meters <| xyPositionOffset + toFloat yi + 0.6
-                , z1 = Length.meters 0
-                , z2 = Length.meters 0.6
-                }
-            )
+        block
 
 
 
@@ -186,7 +189,7 @@ main =
         , init = \_ -> init
         , update = update
         , subscriptions =
-            always <|
+            \_ ->
                 Sub.batch
                     [ Events.onResize Resize
                     , Events.onAnimationFrameDelta Tick
