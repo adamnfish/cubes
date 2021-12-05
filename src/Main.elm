@@ -11,15 +11,11 @@ import Color
 import Direction3d
 import Html exposing (Html, div)
 import Html.Attributes
-import Illuminance
 import Length exposing (Length, Meters, meters)
-import Luminance
 import Pixels
 import Point3d
-import Quantity exposing (Quantity(..))
 import Random
 import Scene3d
-import Scene3d.Light as Light
 import Scene3d.Material
 import Task
 import Viewpoint3d
@@ -138,14 +134,17 @@ view model =
 blockAtIndex : Float -> Float -> Int -> Int -> Scene3d.Entity coordinates
 blockAtIndex xyPositionOffset angleOffset xi yi =
     let
-        axisOffset =
-            Angle.degrees (angleOffset / 500)
+        axisOffset n =
+            Angle.degrees <| n + (angleOffset / 500)
 
         ( rotateDirection, _ ) =
             Random.step
-                (Random.uniform (Direction3d.xy axisOffset) [ Direction3d.yz axisOffset, Direction3d.zy axisOffset ])
+                (Random.andThen
+                    (\a -> Random.uniform (Direction3d.xy <| axisOffset a) [ Direction3d.yz <| axisOffset a, Direction3d.zy <| axisOffset a ])
+                    (Random.float 0 10000)
+                )
                 (Random.initialSeed <|
-                    Maybe.withDefault 0 (String.toInt (String.fromInt xi ++ String.fromInt yi))
+                    (xi + (yi * 1000))
                 )
     in
     Scene3d.rotateAround
