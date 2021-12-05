@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cubes/favicon.ico"
   },
   {
-    "revision": "5b780ba6798c435b87af4bb2cd7564be",
+    "revision": "28d003abd3e1c880307d67cbad324d15",
     "url": "/cubes/index.html"
   },
   {
@@ -16,12 +16,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cubes/manifest.json"
   },
   {
-    "revision": "e97c5f8aba8f9d42e869",
+    "revision": "53e205af23a9f35187ef",
     "url": "/cubes/static/css/main.0af5c45f.chunk.css"
   },
   {
-    "revision": "e97c5f8aba8f9d42e869",
-    "url": "/cubes/static/js/main.e97c5f8a.chunk.js"
+    "revision": "53e205af23a9f35187ef",
+    "url": "/cubes/static/js/main.53e205af.chunk.js"
   },
   {
     "revision": "2291c3fde8bbc06ca44f",

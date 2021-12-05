@@ -1,7 +1,7 @@
 {
   "main.css": "/cubes/static/css/main.0af5c45f.chunk.css",
-  "main.js": "/cubes/static/js/main.e97c5f8a.chunk.js",
-  "main.js.map": "/cubes/static/js/main.e97c5f8a.chunk.js.map",
+  "main.js": "/cubes/static/js/main.53e205af.chunk.js",
+  "main.js.map": "/cubes/static/js/main.53e205af.chunk.js.map",
   "runtime~main.js": "/cubes/static/js/runtime~main.2291c3fd.js",
   "runtime~main.js.map": "/cubes/static/js/runtime~main.2291c3fd.js.map",
   "vendors~main.js": "/cubes/static/js/vendors~main.0b49ec49.chunk.js",
@@ -11,5 +11,5 @@
   "index.html": "/cubes/index.html",
   "logo.svg": "/cubes/logo.svg",
   "manifest.json": "/cubes/manifest.json",
-  "precache-manifest.229d327df8dd320f7efb718e2bd78dbd.js": "/cubes/precache-manifest.229d327df8dd320f7efb718e2bd78dbd.js"
+  "precache-manifest.b067d25b380826a52c1e81de6217045b.js": "/cubes/precache-manifest.b067d25b380826a52c1e81de6217045b.js"
 }
