@@ -1,0 +1,19 @@
+{
+    "name": "cubes",
+    "version": "0.0.1",
+    "description": "Cubes art",
+    "repository": "https://github.com/adamnfish/cubes",
+    "author": "adamnfish",
+    "license": "MIT",
+    "scripts": {
+        "start": "parcel src/index.html",
+        "build": "parcel build src/index.html --dist-dir docs --public-url ./",
+        "test": "elm-test"
+    },
+    "devDependencies": {
+        "@parcel/transformer-elm": "^2.0.1",
+        "elm": "^0.19.1-5",
+        "elm-test": "^0.19.1-revision7",
+        "parcel": "^2.0.1"
+    }
+}

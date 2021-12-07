@@ -92,8 +92,8 @@ view model =
             -0.5 + (-1 * axisCount / 2)
     in
     div
-        [ Html.Attributes.style "width" (String.fromInt model.screenX ++ "px")
-        , Html.Attributes.style "height" (String.fromInt model.screenY ++ "px")
+        [ Html.Attributes.width model.screenX
+        , Html.Attributes.height model.screenY
         , Html.Attributes.style "background-color" "rgb(33, 26, 64)"
         ]
         [ Scene3d.sunny
