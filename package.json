@@ -11,11 +11,11 @@
         "test": "elm-test"
     },
     "devDependencies": {
-        "@parcel/packager-raw-url": "^2.0.1",
-        "@parcel/transformer-elm": "^2.0.1",
-        "@parcel/transformer-webmanifest": "^2.0.1",
-        "elm": "^0.19.1-5",
-        "elm-test": "^0.19.1-revision7",
-        "parcel": "^2.0.1"
+        "@parcel/packager-raw-url": "^2.12.0",
+        "@parcel/transformer-elm": "^2.12.0",
+        "@parcel/transformer-webmanifest": "^2.12.0",
+        "elm": "^0.19.1-6",
+        "elm-test": "^0.19.1-revision12",
+        "parcel": "^2.12.0"
     }
 }
